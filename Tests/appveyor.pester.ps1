@@ -10,7 +10,8 @@ param([switch]$Finalize)
     $TestFile = "TestResultsPS$PSVersion.xml"
     $ProjectRoot = $ENV:APPVEYOR_BUILD_FOLDER
     Set-Location $ProjectRoot
-   
+   $ENV:APPVEYOR_BUILD_FOLDER
+   pwd
 
 #Run a test with the current version of PowerShell
 #Make things faster by removing most output
@@ -28,14 +29,14 @@ param([switch]$Finalize)
         $RelocateData = New-Object Microsoft.SqlServer.Management.Smo.RelocateFile("ProviderDemo", $DataFile)
         $RelocateLog = New-Object Microsoft.SqlServer.Management.Smo.RelocateFile("ProviderDemo_Log", $LogFile)
         Restore-SqlDatabase -ServerInstance 'localhost\SQL2016' -Database ProviderDemo -BackupFile $BackupFile -ReplaceDatabase -RestoreAction Database -RelocateFile @($RelocateData,$RelocateLog)
-
-        
+      
         "`n`tSTATUS: Testing with PowerShell $PSVersion`n"
-		$ProjectRoot = $ENV:APPVEYOR_BUILD_FOLDER
         Import-Module Pester
 		Set-Variable ProgressPreference -Value SilentlyContinue
         Invoke-Pester -Quiet -Path "$ProjectRoot\Tests" -OutputFormat NUnitXml -OutputFile "$ProjectRoot\$TestFile" -PassThru |
         Export-Clixml -Path "$ProjectRoot\PesterResults$PSVersion.xml"
+        $ProjectRoot = $ENV:APPVEYOR_BUILD_FOLDER
+        CD C:
     }
 
 #If finalize is specified, check for failures and 
