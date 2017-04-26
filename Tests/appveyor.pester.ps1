@@ -16,6 +16,7 @@ param([switch]$Finalize)
 #Make things faster by removing most output
     if(-not $Finalize)
     {
+        Import-Module sqlserver
         ## Restore a database onto the local instance
         Set-Location SQLSERVER:\SQL\localhost
         $Instance = Get-Item SQL2016
