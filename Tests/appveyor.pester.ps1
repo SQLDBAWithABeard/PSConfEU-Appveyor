@@ -31,7 +31,7 @@ param([switch]$Finalize)
 
         
         "`n`tSTATUS: Testing with PowerShell $PSVersion`n"
-		
+		$ProjectRoot = $ENV:APPVEYOR_BUILD_FOLDER
         Import-Module Pester
 		Set-Variable ProgressPreference -Value SilentlyContinue
         Invoke-Pester -Quiet -Path "$ProjectRoot\Tests" -OutputFormat NUnitXml -OutputFile "$ProjectRoot\$TestFile" -PassThru |
