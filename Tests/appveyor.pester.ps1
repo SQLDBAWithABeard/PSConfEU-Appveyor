@@ -18,8 +18,8 @@ param([switch]$Finalize)
     {
         ## Restore a database onto the local instance
         Import-Module sqlserver
-        Set-Location SQLSERVER:\SQL\$SQLServer
-        $Instance = Get-Item DEFAULT
+        Set-Location SQLSERVER:\SQL\localhost
+        $Instance = Get-Item SQL2016
         CD PRESENTATIONS:\  
         $defaultbackup = $Instance.BackupDirectory
         $BackupFile = "$defaultbackup\ProviderDemo.bak" 
