@@ -16,6 +16,21 @@ param([switch]$Finalize)
 #Make things faster by removing most output
     if(-not $Finalize)
     {
+        ## Restore a database onto the local instance
+        Import-Module sqlserver
+        Set-Location SQLSERVER:\SQL\$SQLServer
+        $Instance = Get-Item DEFAULT
+        CD PRESENTATIONS:\  
+        $defaultbackup = $Instance.BackupDirectory
+        $BackupFile = "$defaultbackup\ProviderDemo.bak" 
+        Invoke-WebRequest -Uri 'https://onedrive.live.com/download?cid=C802DF42025D5E1F&resid=C802DF42025D5E1F%21418412&authkey=ACrHu72Apu0dIsQ' -OutFile $BackupFile
+        $DataFile = $($Instance.DefaultFile) + 'ProviderDemo.mdf'
+        $LogFile = $($Instance.DefaultLog) + 'ProviderDemo.ldf'
+        $RelocateData = New-Object Microsoft.SqlServer.Management.Smo.RelocateFile("ProviderDemo", $DataFile)
+        $RelocateLog = New-Object Microsoft.SqlServer.Management.Smo.RelocateFile("ProviderDemo_Log", $LogFile)
+        Restore-SqlDatabase -ServerInstance $SQLServer -Database ProviderDemo -BackupFile $BackupFile -ReplaceDatabase -RestoreAction Database -RelocateFile @($RelocateData,$RelocateLog)
+
+        
         "`n`tSTATUS: Testing with PowerShell $PSVersion`n"
 		
         Import-Module Pester
