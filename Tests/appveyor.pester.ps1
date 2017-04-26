@@ -17,7 +17,6 @@ param([switch]$Finalize)
     if(-not $Finalize)
     {
         ## Restore a database onto the local instance
-        Import-Module sqlserver
         Set-Location SQLSERVER:\SQL\localhost
         $Instance = Get-Item SQL2016
         CD PRESENTATIONS:\  
