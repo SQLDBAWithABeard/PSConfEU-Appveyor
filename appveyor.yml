@@ -5,6 +5,7 @@ skip_commits:
   message: /updated readme.*/
 install:
   - cinst pester
+services: mssql2016
 build: false
 test_script:
 # Test with native PS version
