@@ -19,7 +19,6 @@ param([switch]$Finalize)
         ## Restore a database onto the local instance
         Set-Location SQLSERVER:\SQL\localhost
         $Instance = Get-Item SQL2016
-        CD PRESENTATIONS:\  
         $defaultbackup = $Instance.BackupDirectory
         $BackupFile = "$defaultbackup\ProviderDemo.bak" 
         Invoke-WebRequest -Uri 'https://onedrive.live.com/download?cid=C802DF42025D5E1F&resid=C802DF42025D5E1F%21418412&authkey=ACrHu72Apu0dIsQ' -OutFile $BackupFile
@@ -27,7 +26,7 @@ param([switch]$Finalize)
         $LogFile = $($Instance.DefaultLog) + 'ProviderDemo.ldf'
         $RelocateData = New-Object Microsoft.SqlServer.Management.Smo.RelocateFile("ProviderDemo", $DataFile)
         $RelocateLog = New-Object Microsoft.SqlServer.Management.Smo.RelocateFile("ProviderDemo_Log", $LogFile)
-        Restore-SqlDatabase -ServerInstance $SQLServer -Database ProviderDemo -BackupFile $BackupFile -ReplaceDatabase -RestoreAction Database -RelocateFile @($RelocateData,$RelocateLog)
+        Restore-SqlDatabase -ServerInstance 'localhost\SQL2016' -Database ProviderDemo -BackupFile $BackupFile -ReplaceDatabase -RestoreAction Database -RelocateFile @($RelocateData,$RelocateLog)
 
         
         "`n`tSTATUS: Testing with PowerShell $PSVersion`n"
