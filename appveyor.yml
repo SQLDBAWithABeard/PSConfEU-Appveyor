@@ -14,6 +14,8 @@ test_script:
   - ps: Install-Module -Name PSScriptAnalyzer -RequiredVersion 1.6.0 -Repository PSGallery -Force
   - ps: Install-Module sqlserver -Repository PSGallery -Force
   - ps: Import-Module sqlserver
+  - ps: Install-Module dbatools -Repository PSGallery -Force
+  - ps: Import-Module dbatools
   - ps: . .\Tests\appveyor.pester.ps1
 # Finalize pass - collect and upload results
   - ps: . .\Tests\appveyor.pester.ps1 -Finalize
