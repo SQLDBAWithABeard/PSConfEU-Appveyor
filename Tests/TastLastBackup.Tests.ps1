@@ -31,3 +31,4 @@ Describe "Last Backup Test results" -Tag Database, Backup {
             $Result.BackupTaken| Should BeGreaterThan (Get-Date).AddDays(-7) 
         }
     }        
+}
