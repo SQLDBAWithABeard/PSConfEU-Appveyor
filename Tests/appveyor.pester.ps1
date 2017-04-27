@@ -11,7 +11,6 @@ param([switch]$Finalize)
     $ProjectRoot = $ENV:APPVEYOR_BUILD_FOLDER
     Set-Location $ProjectRoot
    $ENV:APPVEYOR_BUILD_FOLDER
-   pwd
 
 #Run a test with the current version of PowerShell
 #Make things faster by removing most output
